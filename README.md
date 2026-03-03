@@ -10,7 +10,7 @@ Fabricio Gabrielli da Silva
 2. Restore packages: `dotnet restore`.
 3. Run migrations: Execute `Migrations/001_CreateDevicesTable.sql` on your SQL Server DB.
 4. Update `appsettings.json` connection string.
-5. Run: `dotnet run --project DeviceManagement.API`.
+5. Run: `dotnet run --project DeviceManagement.Api`.
 
 ## Docker
 - Build and run: `docker-compose up`.
@@ -18,15 +18,17 @@ Fabricio Gabrielli da Silva
 ## API Documentation
 - Swagger: `/swagger` when running.
 
+## Jwt Authentication
+- To generate a valid Jwt token, access endpoint `/api/auth/login` with username = `test` and password = `password01!`.
+
 ## Tests
 - Run: `dotnet test`.
 - Coverage: `dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover`.
 
 ## Future Improvements
-- Add authentication/authorization.
-- Use EF Core for migrations if scaling.
+- Finish authentication/authorization (validate the user credentials against a database or an identity provider).
 - Handle concurrency with optimistic locking.
-- More robust error handling (e.g., global exception middleware).
-- Improve Api documentation
+- Better code coverage for Notification Pattern.
+- Improve Api documentation.
 
 If issues, contact for clarification.

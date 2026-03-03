@@ -3,11 +3,10 @@ using DeviceManagement.Application.Notifications;
 using DeviceManagement.Application.Persistence;
 using DeviceManagement.Domain;
 using DeviceManagement.Domain.Entities;
-using FluentValidation;
 
 namespace DeviceManagement.Application.Services;
 
-public class DeviceService(IDeviceRepository repository, IValidator<CreateDeviceDTO> createValidator, IValidator<UpdateDeviceDTO> updateValidator, NotificationContext notificationContext) : IDeviceService
+public class DeviceService(IDeviceRepository repository, NotificationContext notificationContext) : IDeviceService
 {
     public async Task<DeviceDTO?> GetByIdAsync(Guid id)
     {
@@ -45,9 +44,13 @@ public class DeviceService(IDeviceRepository repository, IValidator<CreateDevice
         return devices.Select(MapToDto);
     }
 
-    public async Task<DeviceDTO> CreateAsync(CreateDeviceDTO dto)
+    public async Task<DeviceDTO?> CreateAsync(CreateDeviceDTO dto)
     {
-        createValidator.ValidateAndThrow(dto);
+        if (dto.Invalid)
+        {
+            notificationContext.AddNotifications(dto.ValidationResult);
+            return null;
+        }
 
         var device = new Device
         {
@@ -68,7 +71,11 @@ public class DeviceService(IDeviceRepository repository, IValidator<CreateDevice
 
     private async Task InternalUpdateAsync(Guid id, UpdateDeviceDTO dto)
     {
-        updateValidator.ValidateAndThrow(dto);
+        if (dto.Invalid)
+        {
+            notificationContext.AddNotifications(dto.ValidationResult);
+            return;
+        }
 
         var device = await repository.GetByIdAsync(id);
 

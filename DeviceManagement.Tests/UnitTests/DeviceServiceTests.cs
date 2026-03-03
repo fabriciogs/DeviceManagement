@@ -2,7 +2,6 @@
 using DeviceManagement.Application.Notifications;
 using DeviceManagement.Application.Persistence;
 using DeviceManagement.Application.Services;
-using DeviceManagement.Application.Validators;
 using DeviceManagement.Domain;
 using DeviceManagement.Domain.Entities;
 using Moq;
@@ -16,10 +15,8 @@ public class DeviceServiceTests
 
     private DeviceService CreateService()
     {
-        var createValidator = new CreateDeviceValidator();
-        var updateValidator = new UpdateDeviceValidator();
         var notificationContextMock = new NotificationContext();
-        return new DeviceService(_repoMock.Object, createValidator, updateValidator, notificationContextMock);
+        return new DeviceService(_repoMock.Object, notificationContextMock);
     }
 
     [Fact]
@@ -85,7 +82,7 @@ public class DeviceServiceTests
         // Arrange
         var pageNumber = 2;
         var pageSize = 5;
-        var devices = Enumerable.Range(1, 10).Select(i => new Device { Id = Guid.NewGuid() });
+        var devices = Enumerable.Range(1, 10).Select(i => new Device { Id = Guid.CreateVersion7() });
         var totalCount = 20;
         _repoMock.Setup(r => r.GetAllPagedAsync(pageNumber, pageSize)).ReturnsAsync((devices, totalCount));
         var service = CreateService();

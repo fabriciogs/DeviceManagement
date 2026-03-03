@@ -16,6 +16,12 @@
 								<ModulePath>.*Dapper\.dll$</ModulePath>
 								<ModulePath>.*FluentValidation\.dll$</ModulePath>
 								<ModulePath>.*Moq\.dll$</ModulePath>
+								<ModulePath>.*xunit.v3.mtp-v1\.dll$</ModulePath>
+								<ModulePath>.*xunit.v3.core\.dll$</ModulePath>
+								<ModulePath>.*xunit.v3.common\.dll$</ModulePath>
+								<ModulePath>.*xunit.v3.runner.inproc.console\.dll$</ModulePath>
+								<ModulePath>.*xunit.v3.runner.common\.dll$</ModulePath>
+								<ModulePath>.*xunit.v3.assert\.dll$</ModulePath>
 							</Exclude>
 						</ModulePaths>
 						<Functions>
@@ -25,6 +31,7 @@
 								<Function>^Microsoft.AspNetCore.OpenApi.Generated\..*</Function>
 								<Function>^System.Runtime.CompilerServices\..*</Function>
 								<Function>^DeviceManagement.Api.Filters\..*</Function>
+								<Function>^DeviceManagement.Infrastructure.Security\..*</Function>
 								<Function>.*Dispose\(</Function>
 								<Function>.*get_.*\(\)</Function>
 								<Function>.*set_.*\(.*\)</Function>
@@ -32,6 +39,8 @@
 								<Function>.*ToString\(</Function>
 								<Function>.*GetHashCode\(</Function>
 								<Function>^DeviceManagement\\.Infrastructure\\.Persistence\\.SqlServerConnectionFactory\\..*</Function>
+								<Function>^DeviceManagement\\.Infrastructure\\.Security\\.UserLogin\\..*</Function>
+								<Function>^DeviceManagement\\.Api\\.Program\\..*</Function>
 							</Exclude>
 						</Functions>
 						<Attributes>
@@ -51,6 +60,7 @@
 								<Source>.*\\Program.cs</Source>
 								<Source>.*\\ConfigureServices.cs</Source>
 								<Source>.*\\SqlServerConnectionFactory.cs</Source>
+								<Source>.*\\UserLogin.cs</Source>
 								<Source>.*\\vctools\\.*</Source>
 								<Source>.*\\public\\sdk\\.*</Source>
 								<Source>.*\\microsoft sdks\\.*</Source>

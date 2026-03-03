@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
-namespace DeviceManagement.API.Controllers;
+namespace DeviceManagement.Api.Controllers;
 
 /// <summary>
 /// Manage Devices CRUD operations and queries.
 /// </summary>
 /// <param name="service"></param>
-//[Authorize]
+[Authorize]
 [Produces(MediaTypeNames.Application.Json)]
 [Route("api/[controller]")]
 [ApiController]
@@ -21,7 +21,7 @@ public class DevicesController(IDeviceService service) : ControllerBase
     /// <param name="id">Device Id (GUID)</param>
     /// <returns>A single device by Id</returns>
     /// <response code="200">A single device by Id</response>
-    /// <response code="401">Unauthorized.</response>
+    /// <response code="401">Invalid credentials.</response>
     /// <response code="404">Device not found.</response>
     /// <response code="500">Internal server error.</response>
     [HttpGet("{id:guid}")]
@@ -36,7 +36,7 @@ public class DevicesController(IDeviceService service) : ControllerBase
     /// <param name="size">Page size (int), max: 100.</param>
     /// <returns>Paged list od all devices.</returns>
     /// <response code="200">Paged list of all devices.</response>
-    /// <response code="401">Unauthorized.</response>
+    /// <response code="401">Invalid credentials.</response>
     /// <response code="500">Internal server error.</response>
     [HttpGet]
     public async Task<ActionResult<PagedResult<DeviceDTO>>> GetAll([FromQuery] int page = 1, [FromQuery] int size = 10)
@@ -49,7 +49,7 @@ public class DevicesController(IDeviceService service) : ControllerBase
     /// <param name="brand">Device brand</param>
     /// <returns>All devices that matches the 'brand' param</returns>
     /// <response code="200">Devices that matches the 'brand' param</response>
-    /// <response code="401">Unauthorized.</response>
+    /// <response code="401">Invalid credentials.</response>
     /// <response code="404">No devices found for specified brand</response>
     /// <response code="500">Internal server error.</response>
     [HttpGet("brand/{brand}")]
@@ -63,8 +63,8 @@ public class DevicesController(IDeviceService service) : ControllerBase
     /// <param name="state"></param>
     /// <returns></returns>
     /// <response code="200"></response>
-    /// <response code="400">Invalid state provided.</response>
-    /// <response code="401">Unauthorized.</response>
+    /// <response code="400">Bad request, check error(s).</response>
+    /// <response code="401">Invalid credentials.</response>
     /// <response code="500">Internal server error.</response>
     [HttpGet("state/{state}")]
     public async Task<ActionResult<IEnumerable<DeviceDTO>>> GetByState(string state)
@@ -81,13 +81,13 @@ public class DevicesController(IDeviceService service) : ControllerBase
     /// <param name="dto"></param>
     /// <response code="201">Device created successfully.</response>
     /// <response code="400">Bad request, check error(s).</response>
-    /// <response code="401">Unauthorized.</response>
+    /// <response code="401">Invalid credentials.</response>
     /// <response code="500">Internal server error.</response>
     [HttpPost]
     public async Task<ActionResult<DeviceDTO>> Create([FromBody] CreateDeviceDTO dto)
     {
         var device = await service.CreateAsync(dto);
-        return CreatedAtAction(nameof(GetById), new { id = device.Id }, device);
+        return CreatedAtAction(nameof(GetById), new { id = device?.Id }, device);
     }
 
     /// <summary>Fully updates an existing device (PUT).</summary>
@@ -95,7 +95,7 @@ public class DevicesController(IDeviceService service) : ControllerBase
     /// <param name="dto"></param>
     /// <response code="204">Device updated successfully.</response>
     /// <response code="400">Bad request, check error(s).</response>
-    /// <response code="401">Unauthorized.</response>
+    /// <response code="401">Invalid credentials.</response>
     /// <response code="500">Internal server error.</response>
     [HttpPut("{id:guid}")]
     public async Task<ActionResult> Update(Guid id, [FromBody] UpdateDeviceDTO dto)
@@ -108,7 +108,7 @@ public class DevicesController(IDeviceService service) : ControllerBase
     /// <param name="id">Device ID (GUID)</param>
     /// <param name="dto"></param>
     /// <response code="204"></response>
-    /// <response code="401">Unauthorized.</response>
+    /// <response code="401">Invalid credentials.</response>
     /// <response code="500">Internal server error.</response>
     [HttpPatch("{id:guid}")]
     public async Task<ActionResult> PartialUpdate(Guid id, [FromBody] UpdateDeviceDTO dto)
@@ -121,7 +121,7 @@ public class DevicesController(IDeviceService service) : ControllerBase
     /// <param name="id">Device ID (GUID)</param>
     /// <response code="204">Device deleted successfully.</response>
     /// <response code="400">Bad request, check error(s).</response>
-    /// <response code="401">Unauthorized.</response>
+    /// <response code="401">Invalid credentials.</response>
     /// <response code="500">Internal server error.</response>
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult> Delete(Guid id)

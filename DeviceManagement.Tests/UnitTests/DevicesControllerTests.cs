@@ -1,4 +1,4 @@
-﻿using DeviceManagement.API.Controllers;
+﻿using DeviceManagement.Api.Controllers;
 using DeviceManagement.Application.DTOs;
 using DeviceManagement.Application.Services;
 using DeviceManagement.Domain;
