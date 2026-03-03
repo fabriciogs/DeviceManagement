@@ -1,9 +1,11 @@
 <Solution>
   <Folder Name="/Solution Items/">
+    <File Path="CodeCoverage.runsettings" />
     <File Path="README.md" />
   </Folder>
   <Project Path="DeviceManagement.Api/DeviceManagement.Api.csproj" Id="5d5ee8f8-cbcc-47e7-8698-7151276d1485" />
   <Project Path="DeviceManagement.Application/DeviceManagement.Application.csproj" Id="e09d1d4d-17f3-4c03-9b26-4306f92761a6" />
   <Project Path="DeviceManagement.Domain/DeviceManagement.Domain.csproj" />
   <Project Path="DeviceManagement.Infrastructure/DeviceManagement.Infrastructure.csproj" Id="9b19a53b-1ac0-4ee9-ba7b-266ac4a7e55b" />
+  <Project Path="DeviceManagement.Tests/DeviceManagement.Tests.csproj" Id="bbe8a607-e41a-4dbb-956c-f0d65bd8508f" />
 </Solution>

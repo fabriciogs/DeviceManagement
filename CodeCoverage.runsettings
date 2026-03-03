@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+	<DataCollectionRunSettings>
+		<DataCollectors>
+			<DataCollector friendlyName="Code Coverage" uri="datacollector://Microsoft/CodeCoverage/2.0" assemblyQualifiedName="Microsoft.CodeCoverage.CodeCoverageCollector, Microsoft.CodeCoverage">
+				<Configuration>
+					<CodeCoverage>
+						<ModulePaths>
+							<Include>
+								<ModulePath>.*\.dll$</ModulePath>
+								<ModulePath>.*\.exe$</ModulePath>
+							</Include>
+							<Exclude>
+								<ModulePath>.*CPPUnitTestFramework.*</ModulePath>
+								<ModulePath>.*\.Tests\.dll$</ModulePath>
+								<ModulePath>.*Dapper\.dll$</ModulePath>
+								<ModulePath>.*FluentValidation\.dll$</ModulePath>
+								<ModulePath>.*Moq\.dll$</ModulePath>
+							</Exclude>
+						</ModulePaths>
+						<Functions>
+							<Exclude>
+								<!-- Exclude methods in a classes or namespaces: -->
+								<Function>^Microsoft.AspNetCore.OpenApi\..*</Function>
+								<Function>^Microsoft.AspNetCore.OpenApi.Generated\..*</Function>
+								<Function>^System.Runtime.CompilerServices\..*</Function>
+								<Function>^DeviceManagement.Api.Filters\..*</Function>
+								<Function>.*Dispose\(</Function>
+								<Function>.*get_.*\(\)</Function>
+								<Function>.*set_.*\(.*\)</Function>
+								<Function>.*Equals\(</Function>
+								<Function>.*ToString\(</Function>
+								<Function>.*GetHashCode\(</Function>
+								<Function>^DeviceManagement\\.Infrastructure\\.Persistence\\.SqlServerConnectionFactory\\..*</Function>
+							</Exclude>
+						</Functions>
+						<Attributes>
+							<Exclude>
+								<Attribute>^Microsoft\.AspNetCore\.OpenApi$</Attribute>
+								<Attribute>^Microsoft\.AspNetCore\.OpenApi\.Generated$</Attribute>
+								<Attribute>^System\.Runtime\.CompilerServices$</Attribute>
+								<Attribute>^System\.Diagnostics\.DebuggerHiddenAttribute$</Attribute>
+								<Attribute>^System\.Diagnostics\.DebuggerNonUserCodeAttribute$</Attribute>
+								<Attribute>^System\.CodeDom\.Compiler\.GeneratedCodeAttribute$</Attribute>
+								<Attribute>^System\.Diagnostics\.CodeAnalysis\.ExcludeFromCodeCoverageAttribute$</Attribute>
+								<Attribute>^DeviceManagement\.Api\.Filters$</Attribute>
+							</Exclude>
+						</Attributes>
+						<Sources>
+							<Exclude>
+								<Source>.*\\Program.cs</Source>
+								<Source>.*\\ConfigureServices.cs</Source>
+								<Source>.*\\SqlServerConnectionFactory.cs</Source>
+								<Source>.*\\vctools\\.*</Source>
+								<Source>.*\\public\\sdk\\.*</Source>
+								<Source>.*\\microsoft sdks\\.*</Source>
+								<Source>.*\\vc\\include\\.*</Source>
+								<Source>.*\\SwaggerUtils\\.*</Source>
+							</Exclude>
+						</Sources>
+					</CodeCoverage>
+				</Configuration>
+			</DataCollector>
+		</DataCollectors>
+	</DataCollectionRunSettings>
+</RunSettings>
