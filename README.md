@@ -1,2 +1,32 @@
-# DeviceManagement
-Device Management Project
+# Device Management Api
+
+This is a REST API for managing Devices, built with .NET Core 10, Clean Architecture, Dapper, and SQL Server.
+
+## Creator
+Fabricio Gabrielli da Silva
+
+## Setup
+1. Install .NET Core 10 SDK (https://dotnet.microsoft.com/en-us/download/dotnet/10.0).
+2. Restore packages: `dotnet restore`.
+3. Run migrations: Execute `Migrations/001_CreateDevicesTable.sql` on your SQL Server DB.
+4. Update `appsettings.json` connection string.
+5. Run: `dotnet run --project DeviceManagement.API`.
+
+## Docker
+- Build and run: `docker-compose up`.
+
+## API Documentation
+- Swagger: `/swagger` when running.
+
+## Tests
+- Run: `dotnet test`.
+- Coverage: `dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover`.
+
+## Future Improvements
+- Add authentication/authorization.
+- Use EF Core for migrations if scaling.
+- Handle concurrency with optimistic locking.
+- More robust error handling (e.g., global exception middleware).
+- Improve Api documentation
+
+If issues, contact for clarification.

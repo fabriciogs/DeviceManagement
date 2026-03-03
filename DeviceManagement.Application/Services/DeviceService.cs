@@ -1,4 +1,5 @@
 ﻿using DeviceManagement.Application.DTOs;
+using DeviceManagement.Application.Notifications;
 using DeviceManagement.Application.Persistence;
 using DeviceManagement.Domain;
 using DeviceManagement.Domain.Entities;
@@ -6,7 +7,7 @@ using FluentValidation;
 
 namespace DeviceManagement.Application.Services;
 
-public class DeviceService(IDeviceRepository repository, IValidator<CreateDeviceDTO> createValidator, IValidator<UpdateDeviceDTO> updateValidator) : IDeviceService
+public class DeviceService(IDeviceRepository repository, IValidator<CreateDeviceDTO> createValidator, IValidator<UpdateDeviceDTO> updateValidator, NotificationContext notificationContext) : IDeviceService
 {
     public async Task<DeviceDTO?> GetByIdAsync(Guid id)
     {
@@ -69,11 +70,17 @@ public class DeviceService(IDeviceRepository repository, IValidator<CreateDevice
     {
         updateValidator.ValidateAndThrow(dto);
 
-        var device = await repository.GetByIdAsync(id) ?? throw new KeyNotFoundException("Device not found.");
+        var device = await repository.GetByIdAsync(id);
+
+        if (device is null)
+        {
+            notificationContext.AddNotification("Error", "Device not found.");
+            return;
+        }
 
         if (device.State == DeviceState.InUse && (dto.Name != null || dto.Brand != null))
         {
-            throw new InvalidOperationException("Cannot update Name or Brand for in-use devices.");
+            notificationContext.AddNotifications(dto.ValidationResult);
         }
 
         if (dto.Name != null) device.Name = dto.Name;
@@ -86,11 +93,18 @@ public class DeviceService(IDeviceRepository repository, IValidator<CreateDevice
 
     public async Task DeleteAsync(Guid id)
     {
-        var device = await repository.GetByIdAsync(id) ?? throw new KeyNotFoundException("Device not found.");
+        var device = await repository.GetByIdAsync(id);
+
+        if (device is null)
+        {
+            notificationContext.AddNotification("Error", "Device not found.");
+            return;
+        }
 
         if (device.State == DeviceState.InUse)
         {
-            throw new InvalidOperationException("Cannot delete in-use devices.");
+            notificationContext.AddNotification("Error", "Cannot delete in-use devices.");
+            return;
         }
 
         await repository.DeleteAsync(id);

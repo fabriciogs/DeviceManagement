@@ -3,6 +3,7 @@ using DeviceManagement.Application.Services;
 using DeviceManagement.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace DeviceManagement.API.Controllers;
 
@@ -11,22 +12,19 @@ namespace DeviceManagement.API.Controllers;
 /// </summary>
 /// <param name="service"></param>
 //[Authorize]
-[Produces("application/json")]
+[Produces(MediaTypeNames.Application.Json)]
 [Route("api/[controller]")]
 [ApiController]
 public class DevicesController(IDeviceService service) : ControllerBase
 {
-    /// <summary>Fetches a single device by ID.</summary>
-    /// <param name="id">Device ID (GUID)</param>
+    /// <summary>Fetches a single device by Id.</summary>
+    /// <param name="id">Device Id (GUID)</param>
     /// <returns>A single device by Id</returns>
     /// <response code="200">A single device by Id</response>
-    /// <response code="401">Unauthorized</response>
-    /// <response code="404">Device not found</response>
+    /// <response code="401">Unauthorized.</response>
+    /// <response code="404">Device not found.</response>
     /// <response code="500">Internal server error.</response>
     [HttpGet("{id:guid}")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(404)]
-    [ProducesResponseType(500)]
     public async Task<ActionResult<DeviceDTO>> GetById(Guid id)
     {
         var device = await service.GetByIdAsync(id);
@@ -34,10 +32,10 @@ public class DevicesController(IDeviceService service) : ControllerBase
     }
 
     /// <summary>Fetches all devices with pagination.</summary>
-    /// <param name="page"></param>
-    /// <param name="size"></param>
-    /// <returns></returns>
-    /// <response code="200"></response>
+    /// <param name="page">Page number (int), min: 1.</param>
+    /// <param name="size">Page size (int), max: 100.</param>
+    /// <returns>Paged list od all devices.</returns>
+    /// <response code="200">Paged list of all devices.</response>
     /// <response code="401">Unauthorized.</response>
     /// <response code="500">Internal server error.</response>
     [HttpGet]
@@ -82,6 +80,7 @@ public class DevicesController(IDeviceService service) : ControllerBase
     /// <summary>Creates a new device.</summary>
     /// <param name="dto"></param>
     /// <response code="201">Device created successfully.</response>
+    /// <response code="400">Bad request, check error(s).</response>
     /// <response code="401">Unauthorized.</response>
     /// <response code="500">Internal server error.</response>
     [HttpPost]
@@ -95,6 +94,7 @@ public class DevicesController(IDeviceService service) : ControllerBase
     /// <param name="id">Device ID (GUID)</param>
     /// <param name="dto"></param>
     /// <response code="204">Device updated successfully.</response>
+    /// <response code="400">Bad request, check error(s).</response>
     /// <response code="401">Unauthorized.</response>
     /// <response code="500">Internal server error.</response>
     [HttpPut("{id:guid}")]
@@ -120,6 +120,7 @@ public class DevicesController(IDeviceService service) : ControllerBase
     /// <summary>Deletes a device by ID.</summary>
     /// <param name="id">Device ID (GUID)</param>
     /// <response code="204">Device deleted successfully.</response>
+    /// <response code="400">Bad request, check error(s).</response>
     /// <response code="401">Unauthorized.</response>
     /// <response code="500">Internal server error.</response>
     [HttpDelete("{id:guid}")]

@@ -1,4 +1,6 @@
+using DeviceManagement.Api.Filters;
 using DeviceManagement.Application.DTOs;
+using DeviceManagement.Application.Notifications;
 using DeviceManagement.Application.Persistence;
 using DeviceManagement.Application.Services;
 using DeviceManagement.Application.Validators;
@@ -62,6 +64,8 @@ builder.Services
     });
 
 // Dependency Injection
+builder.Services.AddScoped<NotificationContext>();
+builder.Services.AddMvc(options => options.Filters.Add<NotificationFilter>());
 var connectionString = builder.Configuration.GetConnectionString("SqlServerConnection")!;
 builder.Services.AddHealthChecks().AddSqlServer(connectionString);
 builder.Services.AddScoped<IDeviceRepository>(_ =>
