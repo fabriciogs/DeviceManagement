@@ -63,11 +63,12 @@ builder.Services.AddScoped<NotificationContext>();
 builder.Services.AddMvc(options => options.Filters.Add<NotificationFilter>());
 var connectionString = builder.Configuration.GetConnectionString("SqlServerConnection")!;
 builder.Services.AddHealthChecks().AddSqlServer(connectionString);
-builder.Services.AddScoped<IDeviceRepository>(_ =>
+builder.Services.AddScoped(_ =>
 {
     var factory = new SqlServerConnectionFactory(connectionString);
-    return new DapperDeviceRepository(factory.CreateConnection());
+    return factory.CreateConnection();
 });
+builder.Services.AddScoped<IDeviceRepository, DapperDeviceRepository>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IValidator<CreateDeviceDTO>, CreateDeviceValidator>();
 builder.Services.AddScoped<IValidator<UpdateDeviceDTO>, UpdateDeviceValidator>();

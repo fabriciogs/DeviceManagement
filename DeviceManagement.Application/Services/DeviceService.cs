@@ -125,4 +125,27 @@ public class DeviceService(IDeviceRepository repository, NotificationContext not
         State = device.State,
         CreationTime = device.CreationTime
     };
+
+    #region IDisposable implementation
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    private bool _isDisposed;
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_isDisposed)
+        {
+            if (disposing)
+            {
+                repository?.Dispose();
+            }
+            _isDisposed = true;
+        }
+    }
+
+    #endregion
 }

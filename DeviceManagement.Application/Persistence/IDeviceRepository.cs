@@ -3,7 +3,7 @@ using DeviceManagement.Domain.Entities;
 
 namespace DeviceManagement.Application.Persistence;
 
-public interface IDeviceRepository
+public interface IDeviceRepository : IDisposable
 {
     Task<Device?> GetByIdAsync(Guid id);
     Task<(IEnumerable<Device> Devices, int TotalCount)> GetAllPagedAsync(int pageNumber, int pageSize);

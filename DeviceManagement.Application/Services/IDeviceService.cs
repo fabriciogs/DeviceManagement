@@ -3,7 +3,7 @@ using DeviceManagement.Domain;
 
 namespace DeviceManagement.Application.Services;
 
-public interface IDeviceService
+public interface IDeviceService : IDisposable
 {
     Task<DeviceDTO?> GetByIdAsync(Guid id);
     Task<PagedResult<DeviceDTO>> GetAllAsync(int pageNumber = 1, int pageSize = 10);

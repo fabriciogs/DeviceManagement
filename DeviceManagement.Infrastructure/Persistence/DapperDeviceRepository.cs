@@ -58,4 +58,27 @@ public class DapperDeviceRepository(IDbConnection connection) : IDeviceRepositor
     {
         await connection.ExecuteAsync("DELETE FROM Devices WHERE Id = @Id", new { Id = id });
     }
+
+    #region IDisposable implementation
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    private bool _isDisposed;
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_isDisposed)
+        {
+            if (disposing)
+            {
+                connection?.Dispose();
+            }
+            _isDisposed = true;
+        }
+    }
+
+    #endregion
 }
